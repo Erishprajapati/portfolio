@@ -1,0 +1,622 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top god-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#home" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">{{ about.name }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link god-nav-link" href="#home"><i class="fas fa-home me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link god-nav-link" href="#about"><i class="fas fa-user me-1"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link god-nav-link" href="#projects"><i class="fas fa-briefcase me-1"></i>Projects</a></li>
+        <li class="nav-item"><a class="nav-link god-nav-link" href="#skills"><i class="fas fa-code me-1"></i>Skills</a></li>
+        <li class="nav-item"><a class="nav-link god-nav-link" href="#contact"><i class="fas fa-envelope me-1"></i>Contact</a></li>
+        <li class="nav-item">
+          <button id="theme-toggle" class="btn btn-outline-light ms-2 god-nav-link" title="Toggle theme"><i class="fas fa-moon"></i></button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+.god-navbar {
+  background: linear-gradient(90deg, #1d3557 0%, #3d405b 100%);
+  box-shadow: 0 8px 32px 0 rgba(29, 53, 87, 0.25), 0 1.5px 0 0 #ffd166;
+  border-radius: 1.5rem;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  margin: 1.5rem 2rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 1050;
+  overflow: visible;
+  backdrop-filter: blur(10px) saturate(140%);
+}
+.god-navbar .navbar-brand {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: #ffd166 !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.god-navbar .nav-link.god-nav-link {
+  position: relative;
+  color: #f1faee !important;
+  font-weight: 500;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(29, 53, 87, 0.10);
+  overflow: hidden;
+}
+.god-navbar .nav-link.god-nav-link:hover, .god-navbar .nav-link.god-nav-link.active, .god-navbar .btn.god-nav-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #ffd166 !important;
+  box-shadow: 0 4px 16px 0 rgba(29, 53, 87, 0.18);
+  transform: translateY(-2px) scale(1.05);
+}
+.god-navbar .nav-link.god-nav-link::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ffd166 0%, #a8dadc 100%);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(.4,0,.2,1), left 0.3s cubic-bezier(.4,0,.2,1);
+}
+.god-navbar .nav-link.god-nav-link:hover::after, .god-navbar .nav-link.god-nav-link.active::after {
+  width: 80%;
+  left: 10%;
+}
+.god-navbar .btn.god-nav-link {
+  border-radius: 0.75rem;
+  border: 1.5px solid #ffd166;
+  background: rgba(255,255,255,0.06);
+  color: #ffd166;
+  box-shadow: 0 2px 8px 0 rgba(29, 53, 87, 0.10);
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
+}
+.god-navbar .navbar-collapse {
+  background: linear-gradient(90deg, #1d3557 0%, #3d405b 100%) !important;
+  border-radius: 1rem;
+}
+@media (max-width: 991.98px) {
+  .god-navbar {
+    margin: 0.5rem 0.5rem;
+    border-radius: 1rem;
+  }
+  .god-navbar .navbar-collapse {
+    background: linear-gradient(90deg, #1d3557 0%, #3d405b 100%) !important;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(29,53,87,0.18);
+    margin-top: 0.5rem;
+    padding: 1rem;
+    animation: slideInMenu 0.5s cubic-bezier(.4,0,.2,1);
+  }
+}
+@keyframes slideInMenu {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.profile-image-container {
+  padding: 20px;
+}
+
+.profile-image-wrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.profile-image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-image-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(255,255,255,0.2);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .profile-image-wrapper {
+    width: 280px;
+    height: 280px;
+  }
+  .profile-image-glow {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+.about-pixelart-card {
+  background: rgba(61, 64, 91, 0.85);
+  border: 2px solid #ffd166;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+.about-pixelart-card:hover {
+  transform: scale(1.03) rotate(-2deg);
+  box-shadow: 0 16px 48px 0 rgba(31,38,135,0.25);
+}
+.about-pixelart-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  border-radius: 1.5rem;
+  object-fit: cover;
+}
+.about-content-card {
+  background: rgba(61, 64, 91, 0.7);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 24px 0 rgba(31,38,135,0.15);
+  border-radius: 1.5rem;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (max-width: 991.98px) {
+  .about-pixelart-card, .about-content-card {
+    min-height: 220px;
+    border-radius: 1rem;
+  }
+  .about-content-card {
+    padding: 1.5rem;
+  }
+}
+
+.profile-modern-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 320px;
+}
+
+.profile-modern-ring {
+  background: conic-gradient(from 180deg at 50% 50%, #ffd166, #3d405b, #1d3557, #ffd166 100%);
+  padding: 6px;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px 0 rgba(29, 53, 87, 0.25), 0 1.5px 0 0 #ffd166;
+  display: inline-block;
+  animation: floatProfile 3s ease-in-out infinite alternate;
+}
+
+.profile-modern-img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.15);
+  box-shadow: 0 4px 24px 0 rgba(29,38,135,0.18);
+  background: #222;
+  transition: transform 0.3s;
+}
+
+.profile-modern-ring:hover .profile-modern-img {
+  transform: scale(1.04) rotate(-2deg);
+}
+
+@keyframes floatProfile {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(12px); }
+}
+
+@media (max-width: 991.98px) {
+  .profile-modern-img {
+    width: 200px;
+    height: 200px;
+  }
+}
+</style>
+
+<!-- Hero Section -->
+<section id="home" class="hero-section" style="background-color: #1d3557; min-height: 100vh; display: flex; align-items: center;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-3 fw-bold mb-4 text-white">Hi, I'm <span class="text-primary">{{ about.name }}</span></h1>
+        <div class="typing-text mb-4">
+          <h2 class="h3 text-white">I'm a <span class="text-primary" id="typing-text"></span></h2>
+        </div>
+        <p class="lead text-white-50 mb-4">{{ about.intro }}</p>
+        <div class="d-flex gap-3">
+          <a href="#projects" class="btn btn-primary btn-lg">View Projects</a>
+          <a href="#contact" class="btn btn-outline-light btn-lg">Contact Me</a>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <div class="profile-modern-container">
+          <div class="profile-modern-ring">
+            <img src="{% static 'images/IMG_2290.jpg' %}" alt="Profile Photo" class="profile-modern-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section py-5" style="background-color: #1d3557;">
+  <div class="container">
+    <h2 class="section-title text-center mb-5 text-white">About Me</h2>
+    <div class="row align-items-stretch justify-content-center g-4 flex-lg-nowrap d-flex">
+      <div class="col-lg-5 d-flex align-items-stretch mb-4 mb-lg-0">
+        <div class="about-pixelart-card shadow-lg rounded-4 overflow-hidden position-relative mx-auto w-100 h-100 d-flex align-items-center justify-content-center p-0">
+          <img src="{% static 'images/about.gif' %}" alt="Pixel Art Office" class="w-100 d-block about-pixelart-img" style="height:100%;object-fit:cover;min-height:320px;">
+        </div>
+      </div>
+      <div class="col-lg-7 d-flex align-items-stretch">
+        <div class="about-content-card p-5 rounded-4 shadow-lg glass-bg w-100 d-flex flex-column justify-content-center h-100">
+          <p class="fs-5 text-white-50 mb-4">{{ about.about|linebreaksbr }}</p>
+          <div class="mt-4">
+            <a href="{% static 'jobcv.pdf' %}" class="btn btn-primary" download>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section py-5" style="background-color: #1d3557;">
+  <div class="container">
+    <h2 class="section-title text-center mb-5 text-white">My Projects</h2>
+    <div class="row g-4">
+      <!-- Peak Times -->
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card h-100">
+          <div class="card bg-dark text-white border-0 rounded-3 overflow-hidden">
+            <div class="card-body p-4">
+              <h4 class="card-title mb-3">Peak Times</h4>
+              <p class="card-text text-white-50">A web-based application for tourists and locals in Nepal, providing location-based travel recommendations, crowd analysis, and an interactive map interface. Features include user authentication, location access, search functionality, and crowd data visualization.</p>
+              <div class="mb-3">
+                <span class="badge bg-primary me-1">Django</span>
+                <span class="badge bg-primary me-1">PostgreSQL</span>
+                <span class="badge bg-primary me-1">Leaflet.js</span>
+                <span class="badge bg-primary me-1">Chart.js</span>
+                <span class="badge bg-primary me-1">HTML/CSS/JS</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/Erishprajapati/Semester-Six" class="btn btn-outline-light" target="_blank">
+                  <i class="fab fa-github"></i> Code
+                </a>
+                <a href="#" class="btn btn-outline-light" target="_blank">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hospital Management System -->
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card h-100">
+          <div class="card bg-dark text-white border-0 rounded-3 overflow-hidden">
+            <div class="card-body p-4">
+              <h4 class="card-title mb-3">Hospital Management System</h4>
+              <p class="card-text text-white-50">A comprehensive hospital management solution built with Django, featuring patient management, appointment scheduling, and doctor shift management. The system provides a seamless experience for patients, doctors, and administrators.</p>
+              <div class="mb-3">
+                <span class="badge bg-primary me-1">Django</span>
+                <span class="badge bg-primary me-1">Python</span>
+                <span class="badge bg-primary me-1">PostgreSQL</span>
+                <span class="badge bg-primary me-1">Bootstrap</span>
+                <span class="badge bg-primary me-1">Django REST</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/Erishprajapati/hospital-management-system1" class="btn btn-outline-light" target="_blank">
+                  <i class="fab fa-github"></i> Code
+                </a>
+                <a href="#" class="btn btn-outline-light" target="_blank">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% for project in projects %}
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card h-100">
+          <div class="card bg-dark text-white border-0 rounded-3 overflow-hidden">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+            {% endif %}
+            <div class="card-body p-4">
+              <h4 class="card-title mb-3">{{ project.title }}</h4>
+              <p class="card-text text-white-50">{{ project.description }}</p>
+              <div class="mb-3">
+                {% for tech in project.technologies.all %}
+                <span class="badge bg-primary me-1">{{ tech.name }}</span>
+                {% endfor %}
+              </div>
+              <div class="d-flex gap-2">
+                {% if project.github_link %}
+                <a href="{{ project.github_link }}" class="btn btn-outline-light" target="_blank">
+                  <i class="fab fa-github"></i> Code
+                </a>
+                {% endif %}
+                {% if project.live_link %}
+                <a href="{{ project.live_link }}" class="btn btn-outline-light" target="_blank">
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section py-5" style="background-color: #1d3557;">
+  <div class="container">
+    <h2 class="section-title text-center mb-5 text-white">Skills & Technologies</h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="skill-category">
+          <h4 class="text-white mb-4">Languages</h4>
+          <div class="skill-cards">
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="32" height="32" alt="Python" title="Python"/>
+              <span class="ms-2 text-white">Python</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="32" height="32" alt="JavaScript" title="JavaScript"/>
+              <span class="ms-2 text-white">JavaScript</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" width="32" height="32" alt="PHP" title="PHP"/>
+              <span class="ms-2 text-white">PHP</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" width="32" height="32" alt="C" title="C"/>
+              <span class="ms-2 text-white">C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="skill-category">
+          <h4 class="text-white mb-4">Framework</h4>
+          <div class="skill-cards">
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" width="32" height="32" alt="Django" title="Django"/>
+              <span class="ms-2 text-white">Django</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="skill-category">
+          <h4 class="text-white mb-4">Databases</h4>
+          <div class="skill-cards">
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="32" height="32" alt="MySQL" title="MySQL"/>
+              <span class="ms-2 text-white">MySQL</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="32" height="32" alt="SQLite" title="SQLite"/>
+              <span class="ms-2 text-white">SQLite</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="32" height="32" alt="PostgreSQL" title="PostgreSQL"/>
+              <span class="ms-2 text-white">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="skill-category">
+          <h4 class="text-white mb-4">Dev Tools</h4>
+          <div class="skill-cards">
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="32" height="32" alt="Git" title="Git"/>
+              <span class="ms-2 text-white">Git</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="32" height="32" alt="VS Code" title="VS Code"/>
+              <span class="ms-2 text-white">VS Code</span>
+            </div>
+            <div class="skill-card bg-dark p-3 rounded-3 mb-3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" width="32" height="32" alt="Apache" title="Apache"/>
+              <span class="ms-2 text-white">Apache</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section py-5" style="background-color: #1d3557;">
+  <div class="container">
+    <h2 class="section-title text-center mb-5 text-white">Get In Touch</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="contact-info text-center mb-5">
+          <p class="text-white-50">Feel free to reach out to me for any questions or opportunities!</p>
+          <div class="d-flex justify-content-center gap-4">
+            <a href="mailto:{{ about.email }}" class="text-white text-decoration-none">
+              <i class="fas fa-envelope"></i> {{ about.email }}
+            </a>
+            <span class="text-white-50">|</span>
+            <span class="text-white">
+              <i class="fas fa-map-marker-alt"></i> {{ about.location }}
+            </span>
+          </div>
+        </div>
+        <div class="contact-form bg-dark p-4 rounded-3">
+          <form method="post">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control bg-dark text-white" id="name" name="name" placeholder="Your Name" required>
+                  <label for="name" class="text-white-50">Your Name</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="email" class="form-control bg-dark text-white" id="email" name="email" placeholder="Your Email" required>
+                  <label for="email" class="text-white-50">Your Email</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-floating">
+                  <textarea class="form-control bg-dark text-white" id="message" name="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                  <label for="message" class="text-white-50">Your Message</label>
+                </div>
+              </div>
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<footer class="py-4 text-center" style="background-color: #1d3557;">
+  <div class="container">
+    <p class="text-white-50 mb-0">© 2025 Irish Prajapati. All rights reserved.</p>
+  </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const userTheme = localStorage.getItem('theme');
+
+function setTheme(dark) {
+    if (dark) {
+        document.body.classList.add('bg-dark', 'text-white');
+        document.body.classList.remove('bg-light', 'text-dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.add('bg-light', 'text-dark');
+        document.body.classList.remove('bg-dark', 'text-white');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+setTheme(userTheme === 'dark' || (!userTheme && prefersDark));
+
+themeToggle.addEventListener('click', () => {
+    setTheme(!document.body.classList.contains('bg-dark'));
+});
+
+// Typing animation
+const typingText = document.getElementById('typing-text');
+const words = ['Backend Developer', 'Python Developer', 'Django Developer'];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingDelay = 100;
+
+function type() {
+    const currentWord = words[wordIndex];
+    
+    if (isDeleting) {
+        typingText.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        typingText.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        typingDelay = 1000;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typingDelay = 100;
+    }
+
+    setTimeout(type, typingDelay);
+}
+
+type();
+
+// Smooth scroll for nav links
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            window.scrollTo({
+                top: target.offsetTop - 70,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+</script>
+{% endblock %} 
