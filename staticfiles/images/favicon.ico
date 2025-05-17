@@ -1,0 +1,13 @@
+from PIL import Image, ImageDraw
+
+# Create a new image with a white background
+size = (32, 32)
+img = Image.new('RGB', size, color='white')
+draw = ImageDraw.Draw(img)
+
+# Draw a simple "IP" (Irish Prajapati) in blue
+draw.rectangle([(4, 4), (28, 28)], outline='#007bff', width=2)
+draw.text((8, 8), "IP", fill='#007bff', font=None)
+
+# Save as ICO
+img.save('static/images/favicon.ico')
